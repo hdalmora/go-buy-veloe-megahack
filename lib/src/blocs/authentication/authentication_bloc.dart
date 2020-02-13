@@ -82,12 +82,15 @@ class AuthenticationBloc implements Bloc {
     showProgressBar(false);
     return response;
   }
+
   Future<int> registerUser() async {
     showProgressBar(true);
     int response = await _repository.signUpWithEmailAndPassword(_email.value, _password.value, _displayName.value);
     showProgressBar(false);
     return response;
   }
+
+  Future<int> authWithGoogle() => _repository.signInWithGoogle();
 
   @override
   void dispose() async {

@@ -44,7 +44,7 @@ class AuthenticationBloc implements Bloc {
       });
 
   final _validateDisplayName = StreamTransformer<String, String>.fromHandlers(handleData: (displayName, sink) {
-    if (displayName.length > 5) {
+    if (Validator.validateDisplayName(displayName)) {
       sink.add(displayName);
     } else {
       sink.addError(StringConstants.displayNameValidateMessage);

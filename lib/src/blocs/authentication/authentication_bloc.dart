@@ -10,11 +10,13 @@ class AuthenticationBloc implements Bloc {
   final _email = BehaviorSubject<String>();
   final _displayName = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
+  final _passwordConfirmation = BehaviorSubject<String>();
   final _isSignedIn = BehaviorSubject<bool>();
 
   Observable<String> get email => _email.stream.transform(_validateEmail);
   Observable<String> get displayName => _displayName.stream.transform(_validateDisplayName);
   Observable<String> get password => _password.stream.transform(_validatePassword);
+  Observable<String> get passwordConfirmation => _passwordConfirmation.stream.transform(_validatePassword);
   Observable<bool>   get signInStatus => _isSignedIn.stream;
 
   // Change data
@@ -61,6 +63,18 @@ class AuthenticationBloc implements Bloc {
         Validator.validateDisplayName(_displayName.value);
   }
 
+  bool validateIfPasswordMatch() {
+    return _passwordConfirmation.value == _password.value;
+  }
+
+  bool canLogin() {
+    return validateEmailAndPassword();
+  }
+
+  bool canRegister() {
+    return validateEmailAndPassword() && validateDisplayName() && validateIfPasswordMatch();
+  }
+
   // Firebase methods
   Future<int> loginUser() async {
     showProgressBar(true);
@@ -79,6 +93,8 @@ class AuthenticationBloc implements Bloc {
   void dispose() async {
     await _email.drain();
     _email.close();
+    await _passwordConfirmation.drain();
+    _passwordConfirmation.close();
     await _displayName.drain();
     _displayName.close();
     await _password.drain();

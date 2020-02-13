@@ -23,6 +23,7 @@ class AuthenticationBloc implements Bloc {
   Function(String) get changeEmail => _email.sink.add;
   Function(String) get changeDisplayName => _displayName.sink.add;
   Function(String) get changePassword => _password.sink.add;
+  Function(String) get changePasswordConfirmation => _passwordConfirmation.sink.add;
   Function(bool)   get showProgressBar => _isSignedIn.sink.add;
 
 

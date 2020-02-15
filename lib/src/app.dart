@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:next_toll_veloe/src/root_page.dart';
 import 'package:next_toll_veloe/src/ui/authentication/auth_page.dart';
-import 'package:next_toll_veloe/src/ui/home/home_page.dart';
+import 'package:next_toll_veloe/src/ui/home_navigation/nav_page.dart';
+import 'package:next_toll_veloe/src/ui/home_navigation/wallet_page.dart';
 import 'blocs/authentication/authentication_bloc_provider.dart';
 
 class NextToll extends StatelessWidget {
@@ -18,7 +19,7 @@ class NextToll extends StatelessWidget {
         routes: {
           RootPage.routeName: (context) => RootPage(),
           AuthPage.routeName: (context) => AuthPage(),
-          HomePage.routeName: (context) => HomePage(),
+          NavPage.routeName: (context) => NavPage(),
         },
       ),
     );

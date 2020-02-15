@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:next_toll_veloe/src/resources/repository.dart';
 import 'package:next_toll_veloe/src/ui/authentication/auth_page.dart';
-import 'package:next_toll_veloe/src/ui/home/home_page.dart';
+import 'package:next_toll_veloe/src/ui/home_navigation/nav_page.dart';
 
 class RootPage extends StatefulWidget {
   static const String routeName = 'root_page';
@@ -26,7 +26,7 @@ class _RootPageState extends State<RootPage> {
     return StreamBuilder<FirebaseUser>(
       stream: _currentUser,
       builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
-        return snapshot.hasData ? HomePage() : AuthPage();
+        return snapshot.hasData ? NavPage() : AuthPage();
       },
     );
   }

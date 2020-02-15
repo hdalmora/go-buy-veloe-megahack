@@ -348,6 +348,7 @@ class _AuthPageState extends State<AuthPage> {
 
                                     CustomButtom(
                                       callback: () async {
+                                        _authBloc.authWithGoogle();
                                       },
                                       height: 60.0,
                                       width: MediaQuery.of(context).size.width,

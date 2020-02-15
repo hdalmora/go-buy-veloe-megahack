@@ -1,4 +1,4 @@
-# next_toll_veloe
+# GO! BUY - Veloe Challenge
 
 Flutter application related to the Veloe Mega Hack Challenge  
 

@@ -35,6 +35,10 @@ class CustomFieldText extends StatelessWidget {
         onChanged: onChanged,
         keyboardType: textInputType,
         obscureText: obscured,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold
+        ),
         decoration: InputDecoration(
           prefixIcon: Icon(prefixIcon, size: 25.0, color: Colors.white,),
           errorText: errorText,

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:next_toll_veloe/src/blocs/authentication/authentication_bloc.dart';
+import 'package:next_toll_veloe/src/blocs/authentication/authentication_bloc_provider.dart';
 import 'package:next_toll_veloe/src/ui/widgets/custom_buttom.dart';
 import 'package:next_toll_veloe/src/ui/widgets/custom_field_text.dart';
 import 'package:next_toll_veloe/src/utils/values/color_constants.dart';
+import 'package:next_toll_veloe/src/utils/values/string_constants.dart';
 
 class AuthPage extends StatefulWidget {
   static const String routeName = 'login_page';
@@ -11,8 +14,18 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  AuthenticationBloc _authBloc;
 
   List<bool> _authOptSelected;
+
+  @override
+  void didChangeDependencies() {
+    _authBloc = AuthenticationBlocProvider.of(context);
+
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
@@ -20,9 +33,16 @@ class _AuthPageState extends State<AuthPage> {
 
     super.initState();
   }
+
+  void showErrorMessage(String message) {
+    final snackbar = SnackBar(content: Text(message), duration: new Duration(seconds: 2));
+    _scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.transparent,
         resizeToAvoidBottomPadding: false,
         body: Center(
@@ -134,6 +154,10 @@ class _AuthPageState extends State<AuthPage> {
                               ],
                               onPressed: (int index) {
                                 setState(() {
+                                  if(_authOptSelected[index] != true) {
+                                    _authBloc.resetFields();
+                                  }
+
                                   for (int i = 0; i < _authOptSelected.length; i++) {
                                     _authOptSelected[i] = i == index;
                                   }
@@ -158,40 +182,56 @@ class _AuthPageState extends State<AuthPage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  CustomFieldText(
-                                    hintText: 'E-mail',
-                                    prefixIcon: Icons.email,
-                                    onChanged: (value){},
-                                    //                                errorText: ,
-                                    marginLeft: 35.0,
-                                    marginRight: 35.0,
-                                    marginTop: 0,
-                                    textInputType: TextInputType.text,
-                                    obscured: false,
+
+                                  StreamBuilder(
+                                      stream: _authBloc.email,
+                                      builder: (context, snapshot) {
+                                        return CustomFieldText(
+                                          hintText: 'E-mail',
+                                          prefixIcon: Icons.email,
+                                          onChanged: _authBloc.changeEmail,
+                                          errorText: snapshot.error,
+                                          marginLeft: 35.0,
+                                          marginRight: 35.0,
+                                          marginTop: 0,
+                                          textInputType: TextInputType.text,
+                                          obscured: false,
+                                        );
+                                      }
                                   ),
 
-                                  CustomFieldText(
-                                    hintText: 'Senha',
-                                    prefixIcon: Icons.lock,
-                                    onChanged: (value){},
-                                    //                                errorText: ,
-                                    marginLeft: 35.0,
-                                    marginRight: 35.0,
-                                    marginTop: 10.0,
-                                    textInputType: TextInputType.text,
-                                    obscured: false,
+                                  StreamBuilder(
+                                      stream: _authBloc.password,
+                                      builder: (context, snapshot) {
+                                        return CustomFieldText(
+                                          hintText: 'Senha',
+                                          prefixIcon: Icons.lock,
+                                          onChanged: _authBloc.changePassword,
+                                          errorText: snapshot.error,
+                                          marginLeft: 35.0,
+                                          marginRight: 35.0,
+                                          marginTop: 10.0,
+                                          textInputType: TextInputType.text,
+                                          obscured: true,
+                                        );
+                                      }
                                   ),
 
-                                  CustomFieldText(
-                                    hintText: 'Confirmar senha ',
-                                    prefixIcon: Icons.lock,
-                                    onChanged: (value){},
-                                    //                                errorText: ,
-                                    marginLeft: 35.0,
-                                    marginRight: 35.0,
-                                    marginTop: 10.0,
-                                    textInputType: TextInputType.text,
-                                    obscured: false,
+                                  StreamBuilder(
+                                      stream: _authBloc.passwordConfirmation,
+                                      builder: (context, snapshot) {
+                                        return CustomFieldText(
+                                          hintText: 'Confirmar senha ',
+                                          prefixIcon: Icons.lock,
+                                          onChanged: _authBloc.changePasswordConfirmation,
+                                          errorText: snapshot.error,
+                                          marginLeft: 35.0,
+                                          marginRight: 35.0,
+                                          marginTop: 10.0,
+                                          textInputType: TextInputType.text,
+                                          obscured: true,
+                                        );
+                                      }
                                   ),
                                 ],
                               ),
@@ -204,28 +244,40 @@ class _AuthPageState extends State<AuthPage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  CustomFieldText(
-                                    hintText: 'E-mail',
-                                    prefixIcon: Icons.email,
-                                    onChanged: (value){},
-//                                errorText: ,
-                                    marginLeft: 35.0,
-                                    marginRight: 35.0,
-                                    marginTop: 0,
-                                    textInputType: TextInputType.text,
-                                    obscured: false,
+
+                                  StreamBuilder(
+                                      stream: _authBloc.email,
+                                      builder: (context, snapshot) {
+                                        return CustomFieldText(
+                                          hintText: 'E-mail',
+                                          prefixIcon: Icons.email,
+                                          onChanged: _authBloc.changeEmail,
+                                          errorText: snapshot.error,
+                                          marginLeft: 35.0,
+                                          marginRight: 35.0,
+                                          marginTop: 0,
+                                          textInputType: TextInputType.text,
+                                          obscured: false,
+                                        );
+                                      }
                                   ),
 
-                                  CustomFieldText(
-                                    hintText: 'Senha',
-                                    prefixIcon: Icons.lock,
-                                    onChanged: (value){},
-//                                errorText: ,
-                                    marginLeft: 35.0,
-                                    marginRight: 35.0,
-                                    marginTop: 10.0,
-                                    textInputType: TextInputType.text,
-                                    obscured: false,
+
+                                  StreamBuilder(
+                                    stream: _authBloc.password,
+                                    builder: (context, snapshot) {
+                                      return CustomFieldText(
+                                        hintText: 'Senha',
+                                        prefixIcon: Icons.lock,
+                                        onChanged: _authBloc.changePassword,
+                                        errorText: snapshot.error,
+                                        marginLeft: 35.0,
+                                        marginRight: 35.0,
+                                        marginTop: 10.0,
+                                        textInputType: TextInputType.text,
+                                        obscured: true,
+                                      );
+                                    }
                                   ),
                                 ],
                               ),
@@ -237,38 +289,85 @@ class _AuthPageState extends State<AuthPage> {
 
                     Flexible(
                       flex: 1,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CustomButtom(
-                              callback: () async {
-                              },
-                              height: 60.0,
-                              width: MediaQuery.of(context).size.width,
-                              fontSize: 18.0,
-                              marginRight: 55.0,
-                              marginLeft: 55.0,
-                              marginTop: 10.0,
-                              text: 'IR',
-                              textColor: Colors.white,
-                            ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child:
 
-                            CustomButtom(
-                              callback: () async {
-                              },
-                              height: 60.0,
-                              width: MediaQuery.of(context).size.width,
-                              fontSize: 16.0,
-                              marginRight: 55.0,
-                              marginLeft: 55.0,
-                              marginTop: 10.0,
-                              iconImagePath: "assets/images/google-plus.png",
-                              text: 'Entrar com o Google',
-                              textColor: Colors.white,
-                            ),
-                          ],
-                        ),
+                          StreamBuilder(
+                            stream: _authBloc.signInStatus,
+                            builder: (context, snapshot) {
+                              if(!snapshot.hasData || snapshot.hasError || !snapshot.data) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    CustomButtom(
+                                      callback: () async {
+                                        int response;
+
+                                        if(_authOptSelected[0] == true) { // login
+
+                                          if(_authBloc.canLogin()) {
+                                            response = await _authBloc.loginUser();
+                                          } else {
+                                            // show login form error message
+                                            showErrorMessage(StringConstants.fillUpFormCorrectly);
+                                          }
+                                        } else { // register
+
+                                          if(_authBloc.canRegister()) {
+                                            response = await _authBloc.registerUser();
+                                          } else {
+                                            // show register form error message
+                                            if(_authBloc.validateIfPasswordMatch()) {
+                                              showErrorMessage(StringConstants.fillUpFormCorrectly);
+                                            } else {
+                                              showErrorMessage(StringConstants.passwordsDontMatch);
+                                            }
+                                          }
+                                        }
+
+                                        if(response != null) {
+                                          if(response < 0 && _authOptSelected[0] == false) {
+                                            // show email or password incorrect
+                                            showErrorMessage(StringConstants.emailOrPasswordIncorrect);
+                                          } else if(response < 0 && _authOptSelected[0] == true) {
+                                            // show failed to login message
+                                            showErrorMessage(StringConstants.failedToLogin);
+                                          }
+                                        }
+                                      },
+                                      height: 60.0,
+                                      width: MediaQuery.of(context).size.width,
+                                      fontSize: 18.0,
+                                      marginRight: 55.0,
+                                      marginLeft: 55.0,
+                                      marginTop: 10.0,
+                                      text: 'IR',
+                                      textColor: Colors.white,
+                                    ),
+
+                                    CustomButtom(
+                                      callback: () async {
+                                      },
+                                      height: 60.0,
+                                      width: MediaQuery.of(context).size.width,
+                                      fontSize: 16.0,
+                                      marginRight: 55.0,
+                                      marginLeft: 55.0,
+                                      marginTop: 10.0,
+                                      iconImagePath: "assets/images/google-plus.png",
+                                      text: 'Entrar com o Google',
+                                      textColor: Colors.white,
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                );
+                              }
+                            }
+                          ),
                       ),
                     ),
                   ],

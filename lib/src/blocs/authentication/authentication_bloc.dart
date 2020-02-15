@@ -55,7 +55,10 @@ class AuthenticationBloc implements Bloc {
   bool validateEmailAndPassword() {
     return _email.value != null &&
         _email.value.isNotEmpty &&
-        Validator.validateEmail(_email.value);
+        Validator.validateEmail(_email.value) &&
+        _password.value != null &&
+        _password.value.isNotEmpty &&
+        Validator.validatePassword(_password.value);
   }
 
   bool validateDisplayName() {
@@ -73,7 +76,13 @@ class AuthenticationBloc implements Bloc {
   }
 
   bool canRegister() {
-    return validateEmailAndPassword() && validateDisplayName() && validateIfPasswordMatch();
+    return validateEmailAndPassword() && validateIfPasswordMatch();
+  }
+
+  void resetFields() {
+    _email.value = "";
+    _password.value = "";
+    _passwordConfirmation.value = "";
   }
 
   // Firebase methods

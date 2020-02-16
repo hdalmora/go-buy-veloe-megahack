@@ -150,109 +150,12 @@ class _StorePageState extends State<StorePage> {
                       ),
 
 
-                      // Product Cart - Horizontal
-                      GestureDetector(
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(18.0),
-                              margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
-                              decoration: const BoxDecoration(
-                                color: ColorConstants.colorWhiteFA,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 5.0, // soften the shadow
-                                    spreadRadius: 2.0, //extend the shadow
-                                  )
-                                ],
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(8), bottom: Radius.circular(8)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    color: Colors.blue,
-                                    height: 100.0,
-                                    width: 80.0,
-                                    child: Image(fit: BoxFit.fill, image: CachedNetworkImageProvider('https://i.imgur.com/eOtEAB7.jpg'))
-                                  ),
-
-                                  Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(top: 5.0),
-                                    width: 120.0,
-                                    child: Text(
-                                      "TOMB RAIDER",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.0,
-                                          color: Colors.black54
-                                      ),
-                                    ),
-                                  ),
-
-                                  Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(top: 5.0, bottom: 15.0),
-                                    width: 120.0,
-                                    child: Text(
-                                      "R\$ 120.00",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.0,
-                                          color: Colors.black38
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Positioned(
-                              bottom: 0,
-                              left: 15,
-                              child: Container(
-                                width: 80.0,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                        colors: [
-                                          ColorConstants.colorMainBlue,
-                                          ColorConstants.colorBlueOcean
-                                        ]),
-                                    color: ColorConstants.colorMainBlue,
-                                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), topRight: Radius.circular(8.0))
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(top: 5.0),
-                                      child: Icon(Icons.add, color: Colors.white,),
-                                    ),
-
-                                    Container(
-                                      margin: EdgeInsets.only(top: 5.0),
-                                      child: Text(
-                                        "ADD",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                            color: Colors.white
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      ProductCard(
+                        productName: "TOMB RAIDER",
+                        productValue: "R\$ 120.00",
+                        callback: () {
+                        },
+                        imageUrl: "https://i.imgur.com/eOtEAB7.jpg",
                       ),
 
                     ],
@@ -265,4 +168,129 @@ class _StorePageState extends State<StorePage> {
         ),
     );
   }
+}
+
+class ProductCard extends StatelessWidget {
+  final String imageUrl;
+  final String productName;
+  final String productValue;
+  final VoidCallback callback;
+
+  const ProductCard({
+    Key key,
+    @required this.imageUrl,
+    @required this.productName,
+    @required this.productValue,
+    @required this.callback
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: callback,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(18.0),
+            margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
+            decoration: const BoxDecoration(
+              color: ColorConstants.colorWhiteFA,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 5.0, // soften the shadow
+                  spreadRadius: 2.0, //extend the shadow
+                )
+              ],
+              borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(8), bottom: Radius.circular(8)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    color: Colors.blue,
+                    height: 100.0,
+                    width: 80.0,
+                    child: Image(fit: BoxFit.fill, image: CachedNetworkImageProvider(imageUrl))
+                ),
+
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 5.0),
+                  width: 120.0,
+                  child: Text(
+                    productName,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Colors.black54
+                    ),
+                  ),
+                ),
+
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 5.0, bottom: 25.0),
+                  width: 120.0,
+                  child: Text(
+                    productValue,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Colors.black38
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Positioned(
+            bottom: 0,
+            left: 15,
+            child: Container(
+              width: 80.0,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        ColorConstants.colorMainBlue,
+                        ColorConstants.colorBlueOcean
+                      ]),
+                  color: ColorConstants.colorMainBlue,
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), topRight: Radius.circular(8.0))
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 5.0),
+                    child: Icon(Icons.add, color: Colors.white,),
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.only(top: 5.0),
+                    child: Text(
+                      "ADD",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          color: Colors.white
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }

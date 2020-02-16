@@ -98,7 +98,7 @@ class _WalletPageState extends State<WalletPage> {
                               ),
                             ),
 
-//
+
 //                                          CustomButtom(
 //                                            callback: () async {
 //                                              _userBloc.logOut();

@@ -12,8 +12,8 @@ class FirestoreResources {
       .orderBy("timestamp", descending: true)
       .snapshots();
 
-  Future<void> checkoutShoppingCartAndMakePurchase(String userUID, List<Item> items, double totalValue, String paymentOption) {
-    ItemsList itemsList = ItemsList(totalValue, paymentOption, items, FieldValue.serverTimestamp());
+  Future<void> checkoutShoppingCartAndMakePurchase(String userUID, String storeUID, String storeName, String storeLogoUrl, List<Item> items, double totalValue, String paymentOption) {
+    ItemsList itemsList = ItemsList(totalValue, storeUID, storeName, storeLogoUrl, paymentOption, items, FieldValue.serverTimestamp());
 
     return _firestore
         .collection("userClient")

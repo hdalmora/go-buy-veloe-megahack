@@ -5,7 +5,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:next_toll_veloe/src/blocs/store/store_bloc.dart';
 import 'package:next_toll_veloe/src/blocs/store/store_bloc_provider.dart';
 import 'package:next_toll_veloe/src/models/Item.dart';
-import 'package:next_toll_veloe/src/ui/checkout_page/checkout_page.dart';
+import 'package:next_toll_veloe/src/models/arguments/CheckoutArguments.dart';
+import 'package:next_toll_veloe/src/ui/checkout/checkout_page.dart';
 import 'package:next_toll_veloe/src/utils/values/color_constants.dart';
 
 class StorePage extends StatefulWidget {
@@ -21,8 +22,14 @@ class _StorePageState extends State<StorePage> {
   StoreBloc _storeBloc;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     _storeBloc = StoreBlocProvider.of(context);
+    _storeBloc.clearItems();
     super.didChangeDependencies();
   }
 
@@ -51,7 +58,8 @@ class _StorePageState extends State<StorePage> {
                 if(_storeBloc.isShoppingCartEmpty()) {
                   showErrorMessage("O carrinho está vazio");
                 } else {
-                  Navigator.of(context).pushNamed(CheckoutPage.routeName, arguments: _storeBloc.getItemsAddedToCart());
+                  CheckoutArguments arguments = CheckoutArguments(1000.00, "debit", _storeBloc.getItemsAddedToCart(), storeUID, "logo", "name");
+                  Navigator.of(context).pushReplacementNamed(CheckoutPage.routeName, arguments: arguments);
                 }
               },
               child: Row(

@@ -36,6 +36,12 @@ class StoreBloc implements Bloc {
 
   List<Item> getItemsAddedToCart() => _shoppingCart;
 
+  void clearItems() {
+    _shoppingCart.clear();
+    _shoppingCartItemsIds.clear();
+    _totalItems.value = 0;
+  }
+
   @override
   void dispose() async {
     await _totalItems.drain();

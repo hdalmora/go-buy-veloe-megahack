@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:next_toll_veloe/src/root_page.dart';
 import 'package:next_toll_veloe/src/ui/authentication/auth_page.dart';
-import 'package:next_toll_veloe/src/ui/checkout_page/checkout_page.dart';
+import 'package:next_toll_veloe/src/ui/checkout/checkout_page.dart';
+import 'package:next_toll_veloe/src/ui/checkout/receipt_page.dart';
 import 'package:next_toll_veloe/src/ui/home_navigation/nav_page.dart';
-import 'package:next_toll_veloe/src/ui/home_navigation/wallet_page.dart';
 import 'package:next_toll_veloe/src/ui/store/store_page.dart';
 import 'blocs/authentication/authentication_bloc_provider.dart';
 import 'blocs/store/store_bloc_provider.dart';
@@ -28,6 +28,7 @@ class NextToll extends StatelessWidget {
               NavPage.routeName: (context) => NavPage(),
               StorePage.routeName: (context) => StorePage(),
               CheckoutPage.routeName: (context) => CheckoutPage(),
+              ReceiptPage.routeName: (context) => ReceiptPage(),
             },
           ),
         ),

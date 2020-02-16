@@ -7,12 +7,18 @@ class ItemsList {
   String paymentOption;
   List<Item> items;
   FieldValue timestamp;
+  String storeUID;
+  String storeName;
+  String storeLogoUrl;
 
-  ItemsList(this.totalValue, this.paymentOption, this.items, this.timestamp);
+  ItemsList(this.totalValue, this.storeUID, this.storeName, this.storeLogoUrl, this.paymentOption, this.items, this.timestamp);
 
   Map<String, dynamic> toMap() => {
     'totalValue': totalValue,
     'paymentOption': paymentOption,
+    'storeUID': storeUID,
+    'storeName': storeName,
+    'storeLogoUrl': storeLogoUrl,
     'timestamp': timestamp,
     'items': items
   };

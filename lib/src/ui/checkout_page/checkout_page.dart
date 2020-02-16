@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:next_toll_veloe/src/blocs/authentication/authentication_bloc.dart';
-import 'package:next_toll_veloe/src/blocs/authentication/authentication_bloc_provider.dart';
+import 'package:next_toll_veloe/src/models/Item.dart';
 import 'package:next_toll_veloe/src/utils/values/color_constants.dart';
 
-class ShoppingCartPage extends StatefulWidget {
-  static const String routeName = 'shopping_cart_page';
+class CheckoutPage extends StatefulWidget {
+  static const String routeName = 'checkout_page';
 
-  const ShoppingCartPage({Key key}) : super(key: key);
+  const CheckoutPage({Key key}) : super(key: key);
 
   @override
-  _ShoppingCartPageState createState() => _ShoppingCartPageState();
+  _CheckoutPageState createState() => _CheckoutPageState();
 }
 
-class _ShoppingCartPageState extends State<ShoppingCartPage> {
-
-  AuthenticationBloc _authBloc;
+class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   void didChangeDependencies() {
-    _authBloc = AuthenticationBlocProvider.of(context);
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<Item> items = ModalRoute.of(context).settings.arguments;
+    print("ITEMS: $items");
+
     return Scaffold(
       backgroundColor: ColorConstants.colorMainBlue,
       resizeToAvoidBottomPadding: false,

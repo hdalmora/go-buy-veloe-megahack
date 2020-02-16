@@ -38,9 +38,9 @@ class FirestoreResources {
       .limit(1)
       .snapshots();
 
-  Future<DocumentSnapshot> checkForStoreBarCode(String barCode) => _firestore
+  Future<DocumentSnapshot> storeDocument(String storeUID) => _firestore
       .collection("stores")
-      .document(barCode)
+      .document(storeUID)
       .snapshots()
       .first;
 }

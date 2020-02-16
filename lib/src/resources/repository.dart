@@ -18,6 +18,7 @@ class Repository {
   /// Firestore
   Stream<QuerySnapshot> purchasesList(String userUID) => _firestoreResources.purchasesList(userUID);
   Stream<QuerySnapshot> lastPurchase(String userUID) => _firestoreResources.lastPurchase(userUID);
-  Future<DocumentSnapshot> checkForStoreBarCode(String barCode) => _firestoreResources.checkForStoreBarCode(barCode);
+  Future<DocumentSnapshot> storeDocument(String storeUID) => _firestoreResources.storeDocument(storeUID);
+  Stream<QuerySnapshot> storeItemsList(String storeUID) => _firestoreResources.storeItemsList(storeUID);
 
 }

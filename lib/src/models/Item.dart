@@ -6,8 +6,9 @@ class Item {
   String itemImageUrl;
   String itemName;
   String itemDescription;
-  double itemPrice;
+  String itemPrice;
   Timestamp timestamp;
+  bool isSelected = false;
 
   Item({this.id, this.storeUID, this.itemImageUrl, this.itemName, this.itemDescription, this.itemPrice, this.timestamp});
 
@@ -28,7 +29,7 @@ class Item {
       itemImageUrl: document['itemImageUrl'],
       itemName: document['itemName'],
       itemDescription: document['itemDescription'],
-      itemPrice: document['itemPrice'],
+      itemPrice: document['itemPrice'].toDouble().toString(),
       timestamp: document['timestamp'],
     );
   }

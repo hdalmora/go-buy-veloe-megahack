@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:next_toll_veloe/src/blocs/user/user_bloc.dart';
 import 'package:next_toll_veloe/src/blocs/user/user_bloc_provider.dart';
 import 'package:next_toll_veloe/src/ui/home_navigation/profile_page.dart';
-import 'package:next_toll_veloe/src/ui/home_navigation/settings_page.dart';
-import 'package:next_toll_veloe/src/ui/home_navigation/shopping_cart_page.dart';
 import 'package:next_toll_veloe/src/ui/store/store_page.dart';
 import 'package:next_toll_veloe/src/utils/shapes/diamond_border.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -36,14 +34,8 @@ class _NavPageState extends State<NavPage> {
     WalletPage(
       key: PageStorageKey('Page1'),
     ),
-    ShoppingCartPage(
-      key: PageStorageKey('Page2'),
-    ),
     ProfilePage(
-      key: PageStorageKey('Page3'),
-    ),
-    SettingsPage(
-      key: PageStorageKey('Page4'),
+      key: PageStorageKey('Page2'),
     ),
   ];
 
@@ -62,16 +54,8 @@ class _NavPageState extends State<NavPage> {
           title: new Text('Carteira')
       ),
       BottomNavigationBarItem(
-          icon: Icon(Icons.local_grocery_store,color: Color.fromARGB(255, 0, 0, 0)),
-          title: new Text('Carrinho')
-      ),
-      BottomNavigationBarItem(
           icon: Icon(Icons.person,color: Color.fromARGB(255, 0, 0, 0)),
           title: new Text('Perfil')
-      ),
-      BottomNavigationBarItem(
-          icon: Icon(Icons.settings,color: Color.fromARGB(255, 0, 0, 0)),
-          title: new Text('Configurações')
       ),
     ],
     onTap: (index) {
@@ -125,7 +109,7 @@ class _NavPageState extends State<NavPage> {
                 DocumentSnapshot storeDoc = await _userBloc.checkInStore(_barCode);
 
                 if(storeDoc.exists && storeDoc.documentID == _barCode) {
-                  Navigator.of(context).pushNamed(StorePage.routeName);
+                  Navigator.of(context).pushNamed(StorePage.routeName, arguments: _barCode);
                 }
 
               }

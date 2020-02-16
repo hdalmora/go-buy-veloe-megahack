@@ -1,6 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:next_toll_veloe/src/blocs/store/store_bloc.dart';
+import 'package:next_toll_veloe/src/blocs/store/store_bloc_provider.dart';
+import 'package:next_toll_veloe/src/models/Item.dart';
+import 'package:next_toll_veloe/src/ui/checkout_page/checkout_page.dart';
 import 'package:next_toll_veloe/src/utils/values/color_constants.dart';
 
 class StorePage extends StatefulWidget {
@@ -11,30 +16,59 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  StoreBloc _storeBloc;
+
+  @override
+  void didChangeDependencies() {
+    _storeBloc = StoreBlocProvider.of(context);
+    super.didChangeDependencies();
+  }
+
+  void showErrorMessage(String message) {
+    final snackbar = SnackBar(content: Text(message), duration: new Duration(seconds: 2));
+    _scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    final String storeUID = ModalRoute.of(context).settings.arguments;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: Container(
-        margin: EdgeInsets.only(top: 120.0),
-        width: 75.0,
-        child: FloatingActionButton(
-          onPressed: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(Icons.shopping_cart,),
-              SizedBox(width: 5.0,),
-              Text("0",
-                style: TextStyle(
-                  fontSize: 18.0
-                ),
+      floatingActionButton: StreamBuilder(
+        stream: _storeBloc.totalItems,
+        builder: (context, snapshot) {
+          return Container(
+            margin: EdgeInsets.only(top: 120.0),
+            width: 75.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                if(_storeBloc.isShoppingCartEmpty()) {
+                  showErrorMessage("O carrinho está vazio");
+                } else {
+                  Navigator.of(context).pushNamed(CheckoutPage.routeName, arguments: _storeBloc.getItemsAddedToCart());
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.shopping_cart,),
+                  SizedBox(width: 5.0,),
+                  Text(snapshot.data != null ? snapshot.data.toString() :  "0",
+                    style: TextStyle(
+                        fontSize: 18.0
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),      ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),      ),
+          );
+        }
       ),
       body: Stack(
           children: <Widget>[
@@ -49,146 +83,210 @@ class _StorePageState extends State<StorePage> {
               ),
             ),
 
-            Positioned(
-              top: 100.0,
-              left: 25.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: 110.0,
-                        width: 110.0,
-                        child: CircleAvatar(
-                            radius: 20,
-                            backgroundImage: CachedNetworkImageProvider('https://dypdvfcjkqkg2.cloudfront.net/original/3976002-8990.png')
-                        ),
-                      ),
+            FutureBuilder<DocumentSnapshot>(
+              future: _storeBloc.storeDocument(storeUID),
+              builder: (context, snapshot) {
+                if(!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    margin: EdgeInsets.only(top: 150),
+                    child: CircularProgressIndicator(
+                      backgroundColor: ColorConstants.colorMainBlue,
+                    ),
+                  );
+                } else {
+                  if(snapshot.hasData && snapshot.data.exists) {
+                    DocumentSnapshot storeDoc = snapshot.data;
 
-                      Container(
-                        margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Top Games",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25.0,
-                                  color: Colors.black38
+                    return Positioned(
+                      top: 100.0,
+                      left: 25.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                height: 110.0,
+                                width: 110.0,
+                                child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: CachedNetworkImageProvider(storeDoc.data['storeLogoUrl'])
+                                ),
                               ),
-                            ),
 
-                            SizedBox(height: 5.0,),
-                            RatingBar(
-                              initialRating: 3,
-                              minRating: 0,
-                              itemSize: 25.0,
-                              ignoreGestures: true,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 3.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
+                              Container(
+                                margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      storeDoc.data['storeName'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25.0,
+                                          color: Colors.black38
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 5.0,),
+                                    RatingBar(
+                                      initialRating: storeDoc.data['rating'],
+                                      minRating: 0,
+                                      itemSize: 25.0,
+                                      ignoreGestures: true,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemPadding: EdgeInsets.symmetric(horizontal: 3.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+
+
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(top: 15.0),
+                                child: Text(
+                                  "Descrição da loja",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0,
+                                      color: Colors.black54
+                                  ),
+                                ),
                               ),
-                              onRatingUpdate: (rating) {
-                              },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+
+                              Container(
+                                margin: EdgeInsets.only(top: 5.0),
+                                width: MediaQuery.of(context).size.width * .85,
+                                child: Text(
+                                  storeDoc.data['storeDescription'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                      color: Colors.black38
+                                  ),
+                                ),
+                              ),
+
+                              Container(
+                                margin: EdgeInsets.only(top: 25.0),
+                                child: Text(
+                                  "Últimos produtos",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0,
+                                      color: Colors.black54
+                                  ),
+                                ),
+                              ),
 
 
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 15.0),
-                        child: Text(
-                          "Descrição da loja",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
-                              color: Colors.black54
+                              StreamBuilder<QuerySnapshot>(
+                                stream: _storeBloc.sotoreProducts(storeUID),
+                                builder: (context, snapshot) {
+                                  if(snapshot.hasData) {
+
+                                    List<DocumentSnapshot> docs = snapshot.data.documents;
+                                    List<Item> items = List<Item>();
+
+                                    docs.forEach((doc) {
+                                      items.add(Item.fromDocument(doc));
+                                    });
+
+                                    if(items.isNotEmpty) {
+                                      return Container(
+                                        width: MediaQuery.of(context).size.width*.85,
+                                        height: 220.0,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: items.length,
+                                          itemBuilder: (context, position) {
+                                            return ProductCard(
+                                              productName: items[position].itemName,
+                                              productValue: "R\$ ${items[position].itemPrice}",
+                                              callback: () {
+                                                _storeBloc.addOrRemoveItemToCart(items[position]);
+                                              },
+                                              imageUrl: items[position].itemImageUrl,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    } else {
+                                      return Center(child: Text("No products to show"));
+                                    }
+
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
-
-                      Container(
-                        margin: EdgeInsets.only(top: 5.0),
-                        width: MediaQuery.of(context).size.width * .85,
-                        child: Text(
-                          "Somos a maior e melhor loja de games do mundo! Contamos com todos os produtos nacionais e internacionais. Se você é um gamer de carteirinha, aqui é o seu lugar!",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                              color: Colors.black38
-                          ),
-                        ),
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.only(top: 25.0),
-                        child: Text(
-                          "Últimos produtos",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
-                              color: Colors.black54
-                          ),
-                        ),
-                      ),
-
-
-                      ProductCard(
-                        productName: "TOMB RAIDER",
-                        productValue: "R\$ 120.00",
-                        callback: () {
-                        },
-                        imageUrl: "https://i.imgur.com/eOtEAB7.jpg",
-                      ),
-
-                    ],
-                  ),
-                ],
-              ),
+                    );
+                  } else {
+                    Navigator.of(context).pop();
+                    return Container();
+                  }
+                }
+              }
             ),
-
           ],
         ),
     );
   }
 }
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final String imageUrl;
   final String productName;
   final String productValue;
   final VoidCallback callback;
 
-  const ProductCard({
+  ProductCard({
     Key key,
     @required this.imageUrl,
     @required this.productName,
     @required this.productValue,
-    @required this.callback
+    @required this.callback,
   });
 
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  bool _isSelected = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: callback,
+      onTap: () {
+        setState(() {
+          _isSelected = !_isSelected;
+        });
+
+        widget.callback();
+      },
       child: Stack(
         children: <Widget>[
           Container(
@@ -214,7 +312,7 @@ class ProductCard extends StatelessWidget {
                     color: Colors.blue,
                     height: 100.0,
                     width: 80.0,
-                    child: Image(fit: BoxFit.fill, image: CachedNetworkImageProvider(imageUrl))
+                    child: Image(fit: BoxFit.fill, image: CachedNetworkImageProvider(widget.imageUrl))
                 ),
 
                 Container(
@@ -222,10 +320,12 @@ class ProductCard extends StatelessWidget {
                   margin: EdgeInsets.only(top: 5.0),
                   width: 120.0,
                   child: Text(
-                    productName,
+                    widget.productName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         color: Colors.black54
                     ),
                   ),
@@ -236,7 +336,7 @@ class ProductCard extends StatelessWidget {
                   margin: EdgeInsets.only(top: 5.0, bottom: 25.0),
                   width: 120.0,
                   child: Text(
-                    productValue,
+                    widget.productValue,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -252,7 +352,7 @@ class ProductCard extends StatelessWidget {
             bottom: 0,
             left: 15,
             child: Container(
-              width: 80.0,
+              width: _isSelected == false ? 80.0 : 120,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.centerLeft,
@@ -270,13 +370,13 @@ class ProductCard extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 5.0),
-                    child: Icon(Icons.add, color: Colors.white,),
+                    child: Icon(_isSelected == false ? Icons.add : Icons.remove, color: Colors.white,),
                   ),
 
                   Container(
                     margin: EdgeInsets.only(top: 5.0),
                     child: Text(
-                      "ADD",
+                      _isSelected == false ? "ADD" : "REMOVE",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -292,5 +392,4 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -8,7 +8,7 @@ class UserBloc implements Bloc {
 
   Future<String> getUserUID() => _repository.getUserUID();
   Stream<QuerySnapshot> purchasesList(String userUID) => _repository.purchasesList(userUID);
-  Future<DocumentSnapshot> checkInStore(String barCode) => _repository.checkForStoreBarCode(barCode);
+  Future<DocumentSnapshot> checkInStore(String barCode) => _repository.storeDocument(barCode);
 
   Future<void> logOut() => _repository.signOut();
 

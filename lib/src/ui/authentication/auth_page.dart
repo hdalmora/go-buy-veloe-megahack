@@ -61,20 +61,39 @@ class _AuthPageState extends State<AuthPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Flexible(
-                      flex: 1,
+                      flex: 2,
                       child: Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              'GO! BUY',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 50.0
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'G',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 50.0
+                                  ),
+                                ),
+                                Container(
+                                  child: Image.asset("assets/images/arrowlogo.png"),
+                                ),
+                                Text(
+                                  '! BUY',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 50.0
+                                  ),
+                                ),
+                              ],
                             ),
+
                           ],
                         ),
                       ),
@@ -95,7 +114,7 @@ class _AuthPageState extends State<AuthPage> {
 //                              fillColor: Colors.white,
                               children: <Widget>[
                                 Container(
-                                  height: 60.0,
+                                  height: 50.0,
                                   width: 150.0,
                                   decoration: BoxDecoration(
                                       gradient: _authOptSelected[1] == true ?
@@ -123,7 +142,7 @@ class _AuthPageState extends State<AuthPage> {
                                 ),
 
                                 Container(
-                                  height: 60.0,
+                                  height: 50.0,
                                   width: 150.0,
                                   decoration: BoxDecoration(
 //                                      color: _authOptSelected[1] == true ? Colors.white : ColorConstants.colorMainBlue,
@@ -171,7 +190,7 @@ class _AuthPageState extends State<AuthPage> {
                     ),
 
                     Flexible(
-                      flex: 2,
+                      flex: 6,
                       child: AnimatedSwitcher(
                           duration: Duration(milliseconds: 300),
                           child: _authOptSelected[1] == true ?
@@ -288,12 +307,10 @@ class _AuthPageState extends State<AuthPage> {
 
 
                     Flexible(
-                      flex: 1,
+                      flex: 3,
                       child: Align(
-                        alignment: Alignment.center,
-                        child:
-
-                          StreamBuilder(
+                        alignment: Alignment.topCenter,
+                        child: StreamBuilder(
                             stream: _authBloc.signInStatus,
                             builder: (context, snapshot) {
                               if(!snapshot.hasData || snapshot.hasError || !snapshot.data) {
@@ -336,7 +353,7 @@ class _AuthPageState extends State<AuthPage> {
                                           }
                                         }
                                       },
-                                      height: 60.0,
+                                      height: 50.0,
                                       width: MediaQuery.of(context).size.width,
                                       fontSize: 18.0,
                                       marginRight: 55.0,
@@ -350,7 +367,7 @@ class _AuthPageState extends State<AuthPage> {
                                       callback: () async {
                                         _authBloc.authWithGoogle();
                                       },
-                                      height: 60.0,
+                                      height: 50.0,
                                       width: MediaQuery.of(context).size.width,
                                       fontSize: 16.0,
                                       marginRight: 55.0,

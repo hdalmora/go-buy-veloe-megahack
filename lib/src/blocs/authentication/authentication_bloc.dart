@@ -102,8 +102,6 @@ class AuthenticationBloc implements Bloc {
 
   Future<int> authWithGoogle() => _repository.signInWithGoogle();
 
-  Future<void> logOut() => _repository.signOut();
-
   @override
   void dispose() async {
     await _email.drain();

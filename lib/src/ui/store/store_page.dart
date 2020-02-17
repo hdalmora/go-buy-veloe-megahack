@@ -47,7 +47,7 @@ class _StorePageState extends State<StorePage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: ColorConstants.colorMainBlue,
       resizeToAvoidBottomPadding: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: StreamBuilder(
@@ -57,6 +57,7 @@ class _StorePageState extends State<StorePage> {
             margin: EdgeInsets.only(top: 120.0),
             width: 75.0,
             child: FloatingActionButton(
+              backgroundColor: Colors.white,
               onPressed: () {
                 if(_storeBloc.isShoppingCartEmpty()) {
                   showErrorMessage("O carrinho está vazio");
@@ -68,11 +69,12 @@ class _StorePageState extends State<StorePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(Icons.shopping_cart,),
+                  Icon(Icons.shopping_cart, color: ColorConstants.colorMainBlue,),
                   SizedBox(width: 5.0,),
                   Text(snapshot.data != null ? snapshot.data.toString() :  "0",
                     style: TextStyle(
-                        fontSize: 18.0
+                      fontSize: 18.0,
+                      color: ColorConstants.colorMainBlue
                     ),
                   ),
                 ],
@@ -90,7 +92,7 @@ class _StorePageState extends State<StorePage> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Icon(Icons.arrow_back_ios, size: 40.0, color: Colors.black54,)
+                child: Icon(Icons.arrow_back_ios, size: 40.0, color: Colors.white,)
               ),
             ),
 
@@ -101,7 +103,7 @@ class _StorePageState extends State<StorePage> {
                   return Container(
                     margin: EdgeInsets.only(top: 150),
                     child: CircularProgressIndicator(
-                      backgroundColor: ColorConstants.colorMainBlue,
+                      backgroundColor: Colors.white,
                     ),
                   );
                 } else {
@@ -140,7 +142,7 @@ class _StorePageState extends State<StorePage> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 25.0,
-                                          color: Colors.black38
+                                          color: Colors.white
                                       ),
                                     ),
 
@@ -179,7 +181,7 @@ class _StorePageState extends State<StorePage> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25.0,
-                                      color: Colors.black54
+                                      color: Colors.white
                                   ),
                                 ),
                               ),
@@ -192,7 +194,7 @@ class _StorePageState extends State<StorePage> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0,
-                                      color: Colors.black38
+                                      color: Colors.white
                                   ),
                                 ),
                               ),
@@ -204,7 +206,7 @@ class _StorePageState extends State<StorePage> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25.0,
-                                      color: Colors.black54
+                                      color: Colors.white
                                   ),
                                 ),
                               ),
@@ -366,14 +368,7 @@ class _ProductCardState extends State<ProductCard> {
             child: Container(
               width: _isSelected == false ? 80.0 : 120,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        ColorConstants.colorMainBlue,
-                        ColorConstants.colorBlueOcean
-                      ]),
-                  color: ColorConstants.colorMainBlue,
+                  color: ColorConstants.colorSecondaryBlue,
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), topRight: Radius.circular(8.0))
               ),
               child: Row(
@@ -388,7 +383,7 @@ class _ProductCardState extends State<ProductCard> {
                   Container(
                     margin: EdgeInsets.only(top: 5.0),
                     child: Text(
-                      _isSelected == false ? "ADD" : "REMOVE",
+                      _isSelected == false ? "ADD" : "REMOVER",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,

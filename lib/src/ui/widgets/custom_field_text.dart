@@ -36,26 +36,26 @@ class CustomFieldText extends StatelessWidget {
         keyboardType: textInputType,
         obscureText: obscured,
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black38,
           fontWeight: FontWeight.bold
         ),
         decoration: InputDecoration(
-          prefixIcon: Icon(prefixIcon, size: 25.0, color: Colors.white,),
+          prefixIcon: Icon(prefixIcon, size: 25.0, color: Colors.black38,),
           errorText: errorText,
           filled: true,
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(35.0))
           ),
-          fillColor: ColorConstants.colorWhite14,
+          fillColor: ColorConstants.colorWhiteFA,
           hintText: hintText,
           hintStyle: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white
+              color: Colors.black38
           ),
           labelStyle: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white
+              color: Colors.black38
           ),
         ),
       ),

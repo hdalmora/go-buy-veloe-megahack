@@ -20,6 +20,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _selectedMethod;
   int _currValue = 0;
@@ -38,6 +39,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return items.fold(0, (sum, item) => sum + double.tryParse(item.itemPrice));
   }
 
+  void showErrorMessage(String message) {
+    final snackbar = SnackBar(content: Text(message), duration: new Duration(seconds: 2));
+    _scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   @override
   Widget build(BuildContext context) {
     CheckoutArguments arguments = ModalRoute.of(context).settings.arguments;
@@ -45,7 +51,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
     double totalPrice = getTotalPrice(items);
     return Scaffold(
-      backgroundColor: ColorConstants.colorWhiteFA,
+      key: _scaffoldKey,
+      backgroundColor: ColorConstants.colorMainBlue,
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
@@ -65,7 +72,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: Icon(Icons.close, size: 40.0, color: Colors.black54,)
+                            child: Icon(Icons.close, size: 40.0, color: Colors.white,)
                         ),
                       ),
 
@@ -76,7 +83,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           style: TextStyle(
                             fontSize: 25.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black38
+                            color: Colors.white
                           ),
                         ),
                       ),
@@ -117,7 +124,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           style: TextStyle(
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black38
+                              color: Colors.white
                           ),
                         ),
                       ),
@@ -140,13 +147,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black38
+                                color: Colors.white
                             ),
                           ),
 
                           Radio(
                             value: 2,
                             groupValue: _currValue,
+
                             onChanged: (value) {
                               setState(() {
                                 _currValue = value;
@@ -159,7 +167,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black38
+                                color: Colors.white
                             ),
                           ),
 
@@ -178,7 +186,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black38
+                                color: Colors.white
                             ),
                           ),
                         ],
@@ -203,7 +211,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 26.0,
-                              color: Colors.black54
+                              color: Colors.white
                           ),
                         ),
                       ),
@@ -227,6 +235,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               Navigator.of(context).pushReplacementNamed(ReceiptPage.routeName, arguments: receiptArguments);
                             } else {
                               // show must select payment method error message
+                              showErrorMessage("Você deve escolher um meio de pagamento!");
                             }
 
                           },

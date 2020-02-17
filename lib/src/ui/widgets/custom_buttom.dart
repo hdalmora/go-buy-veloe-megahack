@@ -36,13 +36,6 @@ class CustomButtom extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                ColorConstants.colorMainBlue,
-                ColorConstants.colorBlueOcean
-              ]),
           boxShadow: [
             BoxShadow(
               color: Colors.black38,
@@ -50,7 +43,7 @@ class CustomButtom extends StatelessWidget {
               spreadRadius: 2.0, //extend the shadow
             )
           ],
-          color: ColorConstants.colorMainBlue,
+          color: ColorConstants.colorSecondaryBlue,
           borderRadius: BorderRadius.all(Radius.circular(35.0))
         ),
         child: iconImagePath == null ?

@@ -5,9 +5,9 @@ import 'package:next_toll_veloe/src/blocs/user/user_bloc.dart';
 import 'package:next_toll_veloe/src/blocs/user/user_bloc_provider.dart';
 import 'package:next_toll_veloe/src/ui/home_navigation/profile_page.dart';
 import 'package:next_toll_veloe/src/ui/store/store_page.dart';
-import 'package:next_toll_veloe/src/utils/shapes/diamond_border.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
+import 'package:next_toll_veloe/src/utils/values/color_constants.dart';
 import 'wallet_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -47,14 +47,17 @@ class _NavPageState extends State<NavPage> {
     currentIndex: selectedIndex,
     showSelectedLabels: true,
     showUnselectedLabels: false,
+    selectedItemColor: ColorConstants.colorSecondaryBlue,
     type: BottomNavigationBarType.fixed,
     items: [
       BottomNavigationBarItem(
           icon: Icon(Icons.account_balance_wallet,color: Color.fromARGB(255, 0, 0, 0)),
+          activeIcon: Icon(Icons.account_balance_wallet,color: ColorConstants.colorSecondaryBlue),
           title: new Text('Carteira')
       ),
       BottomNavigationBarItem(
           icon: Icon(Icons.person,color: Color.fromARGB(255, 0, 0, 0)),
+          activeIcon: Icon(Icons.person,color: ColorConstants.colorSecondaryBlue),
           title: new Text('Perfil')
       ),
     ],
@@ -75,9 +78,9 @@ class _NavPageState extends State<NavPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 30.0),
-        height: 90.0,
-        width: 90.0,
+        margin: EdgeInsets.only(bottom: 0.0),
+        height: 70.0,
+        width: 70.0,
         child: FittedBox(
           child: FloatingActionButton(
             onPressed: () async {
@@ -114,8 +117,8 @@ class _NavPageState extends State<NavPage> {
 
               }
             },
-            shape: DiamondBorder(),
             elevation: 12.0,
+            backgroundColor: ColorConstants.colorSecondaryBlue,
             tooltip: 'Increment',
             child: Container(
               height: 28.0,

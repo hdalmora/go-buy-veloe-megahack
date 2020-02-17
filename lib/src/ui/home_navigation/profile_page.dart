@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:next_toll_veloe/src/blocs/user/user_bloc.dart';
 import 'package:next_toll_veloe/src/blocs/user/user_bloc_provider.dart';
 import 'package:next_toll_veloe/src/ui/widgets/custom_buttom.dart';
+import 'package:next_toll_veloe/src/utils/values/color_constants.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String routeName = 'profile_page';
@@ -25,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorConstants.colorMainBlue,
       resizeToAvoidBottomPadding: false,
       body: SafeArea(
         child: Column(

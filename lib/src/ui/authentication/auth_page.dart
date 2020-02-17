@@ -43,18 +43,10 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Colors.transparent,
+        backgroundColor: ColorConstants.colorMainBlue,
         resizeToAvoidBottomPadding: false,
         body: Center(
           child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                    ColorConstants.colorMainBlue,
-                    ColorConstants.colorBlueOcean
-                  ])),
               child: SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,8 +114,8 @@ class _AuthPageState extends State<AuthPage> {
                                           begin: Alignment.bottomCenter,
                                           end: Alignment.topCenter,
                                           colors: [
-                                            ColorConstants.colorMainBlue,
-                                            ColorConstants.colorBlueOcean
+                                            ColorConstants.colorSecondaryBlue,
+                                            ColorConstants.colorSecondaryBlue
                                           ]) :
                                       LinearGradient(
                                           begin: Alignment.centerLeft,
@@ -151,8 +143,8 @@ class _AuthPageState extends State<AuthPage> {
                                       begin: Alignment.bottomCenter,
                                       end: Alignment.topCenter,
                                       colors: [
-                                        ColorConstants.colorMainBlue,
-                                        ColorConstants.colorBlueOcean
+                                        ColorConstants.colorSecondaryBlue,
+                                        ColorConstants.colorSecondaryBlue
                                       ]) :
                                       LinearGradient(
                                           begin: Alignment.centerLeft,

@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:next_toll_veloe/src/blocs/authentication/authentication_bloc.dart';
-import 'package:next_toll_veloe/src/blocs/authentication/authentication_bloc_provider.dart';
 import 'package:next_toll_veloe/src/blocs/user/user_bloc.dart';
 import 'package:next_toll_veloe/src/blocs/user/user_bloc_provider.dart';
-import 'package:next_toll_veloe/src/ui/widgets/custom_buttom.dart';
 import 'package:next_toll_veloe/src/utils/values/color_constants.dart';
 
 class WalletPage extends StatefulWidget {
@@ -29,7 +26,7 @@ class _WalletPageState extends State<WalletPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorConstants.colorMainBlue,
       resizeToAvoidBottomPadding: false,
       body: SafeArea(
           child:
@@ -63,7 +60,7 @@ class _WalletPageState extends State<WalletPage> {
                               child: Text(
                                   "Olá !",
                                   style: TextStyle(
-                                      color: Colors.black54,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 28.0)
                               ),
@@ -72,9 +69,9 @@ class _WalletPageState extends State<WalletPage> {
                             Container(
                               margin: EdgeInsets.only(top: 30.0, left: 20.0),
                               child: Text(
-                                  "Aqui estão suas últimas compras",
+                                  "Histórico de compras",
                                   style: TextStyle(
-                                      color: Colors.black38,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25.0)
                               ),
@@ -98,7 +95,7 @@ class _WalletPageState extends State<WalletPage> {
                                       Container(
                                         width: MediaQuery.of(context).size.width*.9,
                                         child: Divider(
-                                          color: Colors.black26,
+                                          color: Colors.white,
                                         ),
                                       ),
                                       Container(
@@ -110,7 +107,7 @@ class _WalletPageState extends State<WalletPage> {
                                               child: Text(
                                                   name.toUpperCase(),
                                                   style: TextStyle(
-                                                      color: Colors.black54,
+                                                      color: Colors.white,
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 18.0)
                                               ),
@@ -121,7 +118,7 @@ class _WalletPageState extends State<WalletPage> {
                                               child: Text(
                                                   "R\$ ${price.toStringAsFixed(2).toString()}",
                                                   style: TextStyle(
-                                                      color: Colors.black54,
+                                                      color: Colors.white,
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 18.0)
                                               ),
@@ -147,7 +144,7 @@ class _WalletPageState extends State<WalletPage> {
                               child: Text(
                                   "Olá !",
                                   style: TextStyle(
-                                      color: Colors.black54,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 28.0)
                               ),
@@ -158,7 +155,7 @@ class _WalletPageState extends State<WalletPage> {
                               child: Text(
                                   "Você ainda não realizou uma compra...",
                                   style: TextStyle(
-                                      color: Colors.black54,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 21.0)
                               ),
@@ -168,7 +165,7 @@ class _WalletPageState extends State<WalletPage> {
                               margin: EdgeInsets.only(top: 20.0),
                               alignment: Alignment.center,
                               height: 150.0,
-                              child: Image.asset("assets/images/sad.png", color: Colors.black26,),
+                              child: Image.asset("assets/images/sadface.png", color: Colors.white,),
                             ),
 
                             Container(
@@ -176,7 +173,7 @@ class _WalletPageState extends State<WalletPage> {
                               child: Text(
                                   "Para começar, faça o Check-in em uma loja ao escanear seu QR Code através do botão abaixo",
                                   style: TextStyle(
-                                      color: Colors.black54,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 21.0)
                               ),

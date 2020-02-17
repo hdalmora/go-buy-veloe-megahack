@@ -97,21 +97,6 @@ class _WalletPageState extends State<WalletPage> {
                                       fontSize: 21.0)
                               ),
                             ),
-
-
-//                                          CustomButtom(
-//                                            callback: () async {
-//                                              _userBloc.logOut();
-//                                            },
-//                                            height: 40.0,
-//                                            width: MediaQuery.of(context).size.width,
-//                                            fontSize: 16.0,
-//                                            marginRight: 100.0,
-//                                            marginLeft: 100.0,
-//                                            marginTop: 15.0,
-//                                            text: 'log Out',
-//                                            textColor: Colors.white,
-//                                          ),
                           ],
                         );
                       }

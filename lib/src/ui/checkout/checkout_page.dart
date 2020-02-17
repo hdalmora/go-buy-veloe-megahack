@@ -223,7 +223,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 arguments.storeName
                               );
                               String userUID = await _userBloc.getUserUID();
-                              await _storeBloc.checkoutShoppingCartAndMakePurchase(userUID, arguments.storeUID, arguments.storeName, arguments.storeLogoUrl, items, arguments.totalValue, arguments.paymentOption);
+                              await _storeBloc.checkoutShoppingCartAndMakePurchase(userUID, arguments.storeUID, arguments.storeName, arguments.storeLogoUrl, items, totalPrice, arguments.paymentOption);
                               Navigator.of(context).pushReplacementNamed(ReceiptPage.routeName, arguments: receiptArguments);
                             } else {
                               // show must select payment method error message

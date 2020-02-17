@@ -51,8 +51,92 @@ class _WalletPageState extends State<WalletPage> {
                     if(snapshot.hasData) {
                       List<DocumentSnapshot> docs = snapshot.data.documents;
 
+
+
                       if(docs.isNotEmpty) {
-                        return Container(child: Text("ATIVIDADES RECENTES", style: TextStyle(fontSize: 50.0, color: Colors.white),),);
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(top: 30.0, left: 20.0),
+                              child: Text(
+                                  "Olá !",
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 28.0)
+                              ),
+                            ),
+
+                            Container(
+                              margin: EdgeInsets.only(top: 30.0, left: 20.0),
+                              child: Text(
+                                  "Aqui estão suas últimas compras",
+                                  style: TextStyle(
+                                      color: Colors.black38,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0)
+                              ),
+
+                            ),
+
+                            Container(
+                              width: MediaQuery.of(context).size.width*.95,
+                              height: MediaQuery.of(context).size.height*.45,
+                              margin: EdgeInsets.only(top: 0.0, left: 10),
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: docs.length,
+                                itemBuilder: (context, position) {
+                                  String name = docs[position]['storeName'];
+                                  String price = docs[position]['totalValue'].toString();
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        width: MediaQuery.of(context).size.width*.9,
+                                        child: Divider(
+                                          color: Colors.black26,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 0, bottom: 10),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(top: 10.0, left: 20.0),
+                                              child: Text(
+                                                  name.toUpperCase(),
+                                                  style: TextStyle(
+                                                      color: Colors.black54,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 18.0)
+                                              ),
+                                            ),
+
+                                            Container(
+                                              margin: EdgeInsets.only(top: 10.0, left: 20.0),
+                                              child: Text(
+                                                  "R\$ ${price.toUpperCase()}",
+                                                  style: TextStyle(
+                                                      color: Colors.black54,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 18.0)
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        );
                       } else {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -61,7 +145,7 @@ class _WalletPageState extends State<WalletPage> {
                             Container(
                               margin: EdgeInsets.only(top: 30.0, left: 20.0),
                               child: Text(
-                                  "Olá, Henrique",
+                                  "Olá !",
                                   style: TextStyle(
                                       color: Colors.black54,
                                       fontWeight: FontWeight.bold,

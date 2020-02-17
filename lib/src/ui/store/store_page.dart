@@ -21,6 +21,8 @@ class _StorePageState extends State<StorePage> {
 
   StoreBloc _storeBloc;
 
+  String _storeName;
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +44,7 @@ class _StorePageState extends State<StorePage> {
   Widget build(BuildContext context) {
 
     final String storeUID = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -58,7 +61,7 @@ class _StorePageState extends State<StorePage> {
                 if(_storeBloc.isShoppingCartEmpty()) {
                   showErrorMessage("O carrinho está vazio");
                 } else {
-                  CheckoutArguments arguments = CheckoutArguments(1000.00, "debit", _storeBloc.getItemsAddedToCart(), storeUID, "logo", "name");
+                  CheckoutArguments arguments = CheckoutArguments(0, "", _storeBloc.getItemsAddedToCart(), storeUID, "", _storeName);
                   Navigator.of(context).pushReplacementNamed(CheckoutPage.routeName, arguments: arguments);
                 }
               },
@@ -105,6 +108,7 @@ class _StorePageState extends State<StorePage> {
                   if(snapshot.hasData && snapshot.data.exists) {
                     DocumentSnapshot storeDoc = snapshot.data;
 
+                    _storeName = storeDoc.data['storeName'];
                     return Positioned(
                       top: 100.0,
                       left: 25.0,

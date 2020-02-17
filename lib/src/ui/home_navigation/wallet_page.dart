@@ -90,7 +90,7 @@ class _WalletPageState extends State<WalletPage> {
                                 itemCount: docs.length,
                                 itemBuilder: (context, position) {
                                   String name = docs[position]['storeName'];
-                                  String price = docs[position]['totalValue'].toString();
+                                  double price = docs[position]['totalValue'];
                                   return Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +119,7 @@ class _WalletPageState extends State<WalletPage> {
                                             Container(
                                               margin: EdgeInsets.only(top: 10.0, left: 20.0),
                                               child: Text(
-                                                  "R\$ ${price.toUpperCase()}",
+                                                  "R\$ ${price.toStringAsFixed(2).toString()}",
                                                   style: TextStyle(
                                                       color: Colors.black54,
                                                       fontWeight: FontWeight.bold,

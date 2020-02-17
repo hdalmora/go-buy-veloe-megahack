@@ -199,7 +199,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       Container(
                         margin: EdgeInsets.only(left: 15.0),
                         child: Text(
-                          "R\$ $totalPrice",
+                          "R\$ ${totalPrice.toStringAsFixed(2)}",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 26.0,

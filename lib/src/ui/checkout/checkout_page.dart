@@ -25,11 +25,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
     super.didChangeDependencies();
   }
 
+  double getTotalPrice(List<Item> items) {
+    return items.fold(0, (sum, item) => sum + double.tryParse(item.itemPrice));
+  }
+
   @override
   Widget build(BuildContext context) {
     CheckoutArguments arguments = ModalRoute.of(context).settings.arguments;
     List<Item> items = arguments.items;
 
+    double totalPrice = getTotalPrice(items);
     return Scaffold(
       backgroundColor: ColorConstants.colorWhiteFA,
       resizeToAvoidBottomPadding: false,
@@ -185,7 +190,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       Container(
                         margin: EdgeInsets.only(left: 15.0),
                         child: Text(
-                          "R\$ 509.53",
+                          "R\$ $totalPrice",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 26.0,

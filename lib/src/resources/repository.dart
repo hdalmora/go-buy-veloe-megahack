@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:next_toll_veloe/src/models/Item.dart';
 import 'authentication_resources.dart';
 import 'firestore_resources.dart';
 
@@ -20,5 +21,8 @@ class Repository {
   Stream<QuerySnapshot> lastPurchase(String userUID) => _firestoreResources.lastPurchase(userUID);
   Future<DocumentSnapshot> storeDocument(String storeUID) => _firestoreResources.storeDocument(storeUID);
   Stream<QuerySnapshot> storeItemsList(String storeUID) => _firestoreResources.storeItemsList(storeUID);
+  Future<void> checkoutShoppingCartAndMakePurchase(String userUID, String storeUID, String storeName, String storeLogoUrl, List<Item> items, double totalValue, String paymentOption) =>
+      _firestoreResources.checkoutShoppingCartAndMakePurchase(userUID, storeUID, storeName, storeLogoUrl, items, totalValue, paymentOption);
 
-}
+
+  }

@@ -1,5 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:next_toll_veloe/src/blocs/store/store_bloc.dart';
+import 'package:next_toll_veloe/src/blocs/store/store_bloc_provider.dart';
+import 'package:next_toll_veloe/src/blocs/user/user_bloc.dart';
+import 'package:next_toll_veloe/src/blocs/user/user_bloc_provider.dart';
 import 'package:next_toll_veloe/src/models/Item.dart';
 import 'package:next_toll_veloe/src/models/arguments/CheckoutArguments.dart';
 import 'package:next_toll_veloe/src/ui/checkout/receipt_page.dart';
@@ -20,8 +24,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
   String _selectedMethod;
   int _currValue = 0;
 
+  StoreBloc _storeBloc;
+  UserBloc _userBloc;
+
   @override
   void didChangeDependencies() {
+    _storeBloc = StoreBlocProvider.of(context);
+    _userBloc = UserBlocProvider.of(context);
     super.didChangeDependencies();
   }
 
@@ -206,13 +215,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           callback: () async {
                             if(_selectedMethod != null) {
                               CheckoutArguments receiptArguments = CheckoutArguments(
-                                509.98,
+                                totalPrice,
                                 _selectedMethod,
                                 items,
                                 arguments.storeUID,
                                 arguments.storeLogoUrl,
                                 arguments.storeName
                               );
+                              String userUID = await _userBloc.getUserUID();
+                              await _storeBloc.checkoutShoppingCartAndMakePurchase(userUID, arguments.storeUID, arguments.storeName, arguments.storeLogoUrl, items, arguments.totalValue, arguments.paymentOption);
                               Navigator.of(context).pushReplacementNamed(ReceiptPage.routeName, arguments: receiptArguments);
                             } else {
                               // show must select payment method error message

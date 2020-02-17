@@ -5,7 +5,7 @@ import 'Item.dart';
 class ItemsList {
   double totalValue;
   String paymentOption;
-  List<Item> items;
+  List<Map<String, dynamic>> items;
   FieldValue timestamp;
   String storeUID;
   String storeName;
@@ -19,7 +19,7 @@ class ItemsList {
     'storeUID': storeUID,
     'storeName': storeName,
     'storeLogoUrl': storeLogoUrl,
+    'items': items,
     'timestamp': timestamp,
-    'items': items
   };
 }

@@ -36,6 +36,9 @@ class StoreBloc implements Bloc {
 
   List<Item> getItemsAddedToCart() => _shoppingCart;
 
+  Future<void> checkoutShoppingCartAndMakePurchase(String userUID, String storeUID, String storeName, String storeLogoUrl, List<Item> items, double totalValue, String paymentOption) =>
+      _repository.checkoutShoppingCartAndMakePurchase(userUID, storeUID, storeName, storeLogoUrl, items, totalValue, paymentOption);
+
   void clearItems() {
     _shoppingCart.clear();
     _shoppingCartItemsIds.clear();

@@ -13,7 +13,13 @@ class FirestoreResources {
       .snapshots();
 
   Future<void> checkoutShoppingCartAndMakePurchase(String userUID, String storeUID, String storeName, String storeLogoUrl, List<Item> items, double totalValue, String paymentOption) {
-    ItemsList itemsList = ItemsList(totalValue, storeUID, storeName, storeLogoUrl, paymentOption, items, FieldValue.serverTimestamp());
+    List<Map<String, dynamic>> itemsMap = new List<Map<String, dynamic>>();
+
+    items.forEach((item) {
+      itemsMap.add(item.toMap());
+    });
+
+    ItemsList itemsList = ItemsList(totalValue, storeUID, storeName, storeLogoUrl, paymentOption, itemsMap, FieldValue.serverTimestamp());
 
     return _firestore
         .collection("userClient")
